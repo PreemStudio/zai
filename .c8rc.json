@@ -1,0 +1,12 @@
+{
+	"all": true,
+	"branches": 0,
+	"check-coverage": true,
+	"exclude": ["**/*.spec.ts"],
+	"functions": 0,
+	"lines": 0,
+	"reporter": ["html", "lcov", "text"],
+	"skip-full": true,
+	"src": ["source"],
+	"statements": 0
+}
