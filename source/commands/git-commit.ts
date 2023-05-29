@@ -89,6 +89,10 @@ export class GitCommitCommand extends AbstractCommand {
 		description: 'Whether to include a summary of all changes',
 	});
 
+	readonly push = Option.Boolean('--push', true, {
+		description: 'Whether to push the commit to the remote repository',
+	});
+
 	public async run() {
 		let prefix = this.prefix;
 
@@ -154,5 +158,9 @@ export class GitCommitCommand extends AbstractCommand {
 			prefix === undefined ? commitMessageSelection : `${prefix}: ${commitMessageSelection}`,
 			true,
 		);
+
+		if (this.push) {
+			await this.git.push();
+		}
 	}
 }

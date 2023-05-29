@@ -35,6 +35,12 @@ export class Git {
 		).output();
 	}
 
+	public async push() {
+		return (
+			await Process.run('git', ['push'])
+		).output();
+	}
+
 	public async diff(onlyStaged = false) {
 		const diffArguments = onlyStaged ? ['diff', '--cached'] : ['diff'];
 		const files = (await Process.run(
