@@ -12,6 +12,7 @@ export function generateSummaryPrompt(
 	style: string,
 	useShortTitle: boolean,
 	useSummary: boolean,
+	prefixes?: string | undefined,
 	patch?: string | undefined,
 ) {
 	assert.string(patch);
@@ -44,6 +45,10 @@ export function generateSummaryPrompt(
 		system.push('You need to include a summary of all changes.');
 	}
 
+	if (prefixes !== undefined) {
+		system.push(`You need to use one of the following prefixes: ${prefixes}`);
+	}
+
 	return {
 		system: [
 			...system,
@@ -60,6 +65,18 @@ export class GitCommitCommand extends AbstractCommand {
 		description: 'The style of the commit message',
 	});
 
+	readonly prefix = Option.String('--prefix', {
+		description: 'Whether to include the given prefix in the commit message',
+	});
+
+	readonly prefixes = Option.String('--prefixes', {
+		description: 'Whether to include a prefix from the given list in the commit message',
+	});
+
+	readonly usePrefixPrompt = Option.String('--use-prefix-prompt', {
+		description: 'Whether to prompt for a prefix from the given list',
+	});
+
 	readonly useOnlyStaged = Option.Boolean('--use-only-staged', false, {
 		description: 'Whether to summarize only staged changes',
 	});
@@ -73,6 +90,22 @@ export class GitCommitCommand extends AbstractCommand {
 	});
 
 	public async run() {
+		let prefix = this.prefix;
+
+		if (prefix === undefined && this.prefixes !== undefined && this.usePrefixPrompt) {
+			const selection = await this.clack.select({
+				message: 'Which prefix do you want to use?',
+				options: this.prefixes.split(',').map((prefix) => ({
+					label: prefix,
+					value: prefix,
+				})),
+			});
+
+			if (typeof selection === 'string') {
+				prefix = selection;
+			}
+		}
+
 		const detectingFiles = this.clack.spinner();
 		detectingFiles.start('Detecting staged files');
 		const staged = await this.git.diff(this.useOnlyStaged);
@@ -92,6 +125,7 @@ export class GitCommitCommand extends AbstractCommand {
 				this.style,
 				this.useShortTitle,
 				this.useSummary,
+				this.prefixes,
 				staged.diff,
 			);
 
@@ -111,11 +145,13 @@ export class GitCommitCommand extends AbstractCommand {
 			);
 		}
 
+		const commitMessageSelection = await selectFromChoices(
+			arrayToSelection(messages),
+			'commit message',
+		);
+
 		await this.git.commit(
-			await selectFromChoices(
-				arrayToSelection(messages),
-				'commit message',
-			),
+			prefix === undefined ? commitMessageSelection : `${prefix}: ${commitMessageSelection}`,
 			true,
 		);
 	}
