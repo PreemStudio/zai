@@ -56,7 +56,7 @@ export function generateSummaryPrompt(
 export class GitCommitCommand extends AbstractCommand {
 	public static override paths = [['git', 'commit']];
 
-	readonly style = Option.String('--style', 'conventional-commit', {
+	readonly style = Option.String('--style', 'commit', {
 		description: 'The style of the commit message',
 	});
 
