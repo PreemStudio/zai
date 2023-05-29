@@ -25,7 +25,7 @@ export class ConfigInitializeCommand extends AbstractCommand {
 			github: { token: this.githubToken },
 			openai: {
 				token: this.openaiToken,
-				model: 'gpt-3.5-turbo',
+				model: 'gpt-4',
 				completions: 5,
 			},
 		});
