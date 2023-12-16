@@ -759,7 +759,7 @@ packages:
       '@octokit/oauth-app': 4.2.2
       '@octokit/plugin-paginate-rest': 6.1.2(@octokit/core@4.2.1)
       '@octokit/types': 9.2.3
-      '@octokit/webhooks': 10.7.0
+      '@octokit/webhooks': 10.9.2
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -993,17 +993,17 @@ packages:
     engines: {node: '>= 14'}
     dev: false
 
-  /@octokit/webhooks-types@6.10.0:
-    resolution: {integrity: sha512-lDNv83BeEyxxukdQ0UttiUXawk9+6DkdjjFtm2GFED+24IQhTVaoSbwV9vWWKONyGLzRmCQqZmoEWkDhkEmPlw==}
+  /@octokit/webhooks-types@6.11.0:
+    resolution: {integrity: sha512-AanzbulOHljrku1NGfafxdpTCfw2ENaWzH01N2vqQM+cUFbk868Cgh0xylz0JIM9BoKbfI++bdD6EYX0Q/UTEw==}
     dev: false
 
-  /@octokit/webhooks@10.7.0:
-    resolution: {integrity: sha512-zZBbQMpXXnK/ki/utrFG/TuWv9545XCSLibfDTxrYqR1PmU6zel02ebTOrA7t5XIGHzlEOc/NgISUIBUe7pMFA==}
+  /@octokit/webhooks@10.9.2:
+    resolution: {integrity: sha512-hFVF/szz4l/Y/GQdKxNmQjUke0XJXK986p+ucIlubTGVPVtVtup5G1jarQfvCMBs9Fvlf9dvH8K83E4lefmofQ==}
     engines: {node: '>= 14'}
     dependencies:
       '@octokit/request-error': 3.0.3
       '@octokit/webhooks-methods': 3.0.2
-      '@octokit/webhooks-types': 6.10.0
+      '@octokit/webhooks-types': 6.11.0
       aggregate-error: 3.1.0
     dev: false
 
@@ -3735,6 +3735,7 @@ packages:
   /iconv-lite@0.6.3:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
     engines: {node: '>=0.10.0'}
+    requiresBuild: true
     dependencies:
       safer-buffer: 2.1.2
     dev: true
@@ -5720,6 +5721,7 @@ packages:
 
   /safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
+    requiresBuild: true
     dev: true
     optional: true
 
