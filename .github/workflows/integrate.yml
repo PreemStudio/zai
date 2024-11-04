@@ -1,0 +1,56 @@
+name: "Integrate"
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    coding-standards:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Clone
+              uses: actions/checkout@v3
+              with:
+                  ref: ${{ github.head_ref }}
+
+            - uses: pnpm/action-setup@v2
+              with:
+                  run_install: true
+                  version: latest
+
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 19.x
+
+            - name: Execute
+              run: |
+                  curl -fsSL https://dprint.dev/install.sh | sh
+                  export DPRINT_INSTALL="/home/runner/.dprint"
+                  export PATH="$DPRINT_INSTALL/bin:$PATH"
+                  pnpm run prettier
+
+            - name: Commit
+              uses: stefanzweifel/git-auto-commit-action@v4
+              with:
+                  commit_message: "chore: resolve style guide violations"
+    tests:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Clone
+              uses: actions/checkout@v3
+              with:
+                  ref: ${{ github.head_ref }}
+
+            - uses: pnpm/action-setup@v2
+              with:
+                  run_install: true
+                  version: latest
+
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 19.x
+
+            - name: Execute
+              run: pnpm run test
